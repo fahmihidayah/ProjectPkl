@@ -16,9 +16,9 @@ import java.util.List;
  * Company    : PiXilApps
  * Project    : PklProj
  */
-public class ArrayAdapterCustom extends ArrayAdapter<String> {
+public class ArrayAdapterCustom extends ArrayAdapter<User> {
 
-    public ArrayAdapterCustom(@NonNull Context context, int resource, @NonNull List<String> objects) {
+    public ArrayAdapterCustom(@NonNull Context context, int resource, @NonNull List<User> objects) {
         super(context, resource, objects);
     }
 
@@ -26,23 +26,37 @@ public class ArrayAdapterCustom extends ArrayAdapter<String> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // 1.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false);
-        // 2.
-        ContactViewHolder contactViewHolder = new ContactViewHolder();
-        contactViewHolder.imageViewContact = view.findViewById(R.id.image_view_contact);
-        contactViewHolder.textViewContactName = view.findViewById(R.id.text_view_contact_name);
-        // 3.
-        String data = getItem(position);
-        // 4.
-        contactViewHolder.textViewContactName.setText(data);
-        if(position % 2 == 0) {
-            contactViewHolder.imageViewContact.setImageResource(android.R.drawable.ic_menu_send);
+        ContactViewHolder contactViewHolder = null;
+
+        if(convertView == null) {
+
+            //
+            // 2.
+
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false);
+            // ini dihindari
+            contactViewHolder = new ContactViewHolder();
+            // ini dihindari
+            contactViewHolder.imageViewContact = convertView.findViewById(R.id.image_view_contact);
+            contactViewHolder.textViewContactName = convertView.findViewById(R.id.text_view_contact_name);
+            convertView.setTag(contactViewHolder);
+
         }
         else {
-            contactViewHolder.imageViewContact.setImageResource(android.R.drawable.ic_menu_edit);
+            contactViewHolder = (ContactViewHolder) convertView.getTag();
+        }
+        // 3.
+        User data = getItem(position);
+        // 4.
+        contactViewHolder.textViewContactName.setText(data.getNama());
+        if(position % 2 == 0) {
+            contactViewHolder.imageViewContact.setImageResource(data.getResImage());
+        }
+        else {
+            contactViewHolder.imageViewContact.setImageResource(data.getResImage());
         }
 
-        return view;
+        return convertView;
     }
 
 

@@ -21,24 +21,13 @@ public class MainActivityJava extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        User user = new User();
          ListView listView = findViewById(R.id.list_view);
         // ------
-        ArrayList<String> namas = new ArrayList<>();
-        namas.add("fahmi");
-        namas.add("doni");
-        namas.add("wildan");
-        namas.add("fahmi");
-        namas.add("doni");
-        namas.add("wildan");
-        namas.add("fahmi");
-        namas.add("doni");
-        namas.add("wildan");
-        namas.add("fahmi");
-        namas.add("doni");
-        namas.add("wildan");
+        ArrayList<User> namas = new ArrayList<>();
 
 
-        ArrayAdapter<String> adapterString = new ArrayAdapterCustom(this, -1, namas);
+        ArrayAdapter<User> adapterString = new ArrayAdapterCustom(this, -1, namas);
         // ------
         listView.setAdapter(adapterString);
 
