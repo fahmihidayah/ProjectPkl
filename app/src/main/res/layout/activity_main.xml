@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.widsons.pklproj.MainActivity">
     <ListView
-        android:visibility="gone"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <Button
+        android:visibility="gone"
         android:text="List tipe 1"
         android:id="@+id/button_list_tipe1"
         android:layout_width="wrap_content"
