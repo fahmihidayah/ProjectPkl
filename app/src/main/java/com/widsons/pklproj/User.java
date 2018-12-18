@@ -8,9 +8,18 @@ package com.widsons.pklproj;
  */
 public class User {
     private int resImage = R.drawable.ic_launcher_background;
-    private String nama;
-    private String email;
-    private String phone;
+    private String nama ;
+    private String email ;
+    private String phone ;
+
+    public User() {
+    }
+
+    public User(String nama, String email, String phone) {
+        this.nama = nama;
+        this.email = email;
+        this.phone = phone;
+    }
 
     public int getResImage() {
         return resImage;
