@@ -58,8 +58,6 @@ public class MainActivityJava extends AppCompatActivity {
         // ------
         listView.setAdapter(adapterString);
 
-        int i = 10;
-        i  = 12;
 
     }
 }

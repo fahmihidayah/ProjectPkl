@@ -1,0 +1,21 @@
+PR
+1. cari tau dokumentasi dari method
+add
+addAll
+remove
+removeAll
+set
+get
+clear
+
+keyword arraylist add documentation
+
+2. di desain ui tambahin button
+button 1 -> ketika di klik menghapus item yang paling bawah
+button 2 -> ketika di klik memunculkan item yang paling bawah (Toast)
+button 3 -> akan meng set item yang paling bawah dengan nama "test", email "test@email.com" phone "000000"
+button 4 -> nambah 1 item dengan nama "baru" email "baru@email.com" phone "111111"
+
+keywordnya pakai yang sudah di pelajari diatas + notifyDataSetChanged() android;
+
+
