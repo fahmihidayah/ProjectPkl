@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * Project    : PklProj
  */
 public class MainActivityJava extends AppCompatActivity {
+
     String jsonData = "[\n" +
             "{\n" +
             "\"nama\": \"Edward Murray\",\n" +
