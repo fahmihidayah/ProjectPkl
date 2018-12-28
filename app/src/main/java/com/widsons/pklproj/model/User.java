@@ -12,6 +12,8 @@ public class User {
     private String email ;
     private String phone ;
 
+    private boolean isChecked;
+
     public User() {
     }
 
@@ -51,5 +53,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }
