@@ -12,6 +12,7 @@ import android.widget.TextView;
 public class ContactViewHolder {
     public ImageView imageViewContact;
     public TextView textViewContactName;
+    public ImageView imageViewCheck;
 
 
 }

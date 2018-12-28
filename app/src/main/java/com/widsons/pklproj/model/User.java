@@ -1,4 +1,6 @@
-package com.widsons.pklproj;
+package com.widsons.pklproj.model;
+
+import com.widsons.pklproj.R;
 
 /**
  * Created on : December/17/2018

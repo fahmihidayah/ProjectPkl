@@ -12,8 +12,15 @@
         android:layout_height="match_parent"/>
 
     <Button
-        android:text="List tipe 1"
+        android:text="Delete"
         android:id="@+id/button_list_tipe1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ToggleButton
+        android:layout_toEndOf="@+id/button_list_tipe1"
+        android:textOff="View"
+        android:textOn="Delete"
+        android:id="@+id/toggle_button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

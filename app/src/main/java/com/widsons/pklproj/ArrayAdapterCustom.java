@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import com.widsons.pklproj.model.Siswa;
+import com.widsons.pklproj.model.User;
 
 import java.util.List;
 
@@ -16,44 +20,33 @@ import java.util.List;
  * Company    : PiXilApps
  * Project    : PklProj
  */
-public class ArrayAdapterCustom extends ArrayAdapter<User> {
+public class ArrayAdapterCustom extends ArrayAdapter<Siswa> {
 
-    public ArrayAdapterCustom(@NonNull Context context, int resource, @NonNull List<User> objects) {
+    private boolean isEditMode;
+
+    public void setEditMode(boolean editMode) {
+        isEditMode = editMode;
+        notifyDataSetChanged();
+    }
+
+    public ArrayAdapterCustom(@NonNull Context context, int resource, @NonNull List<Siswa> objects) {
         super(context, resource, objects);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // 1.
-        ContactViewHolder contactViewHolder = null;
 
-        if(convertView == null) {
+        Siswa data = getItem(position);
 
-            //
-            // 2.
-
+        int type = data.getType();
+        if(type == 1) {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
+        }
+        else {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contact, parent, false);
-            // ini dihindari
-            contactViewHolder = new ContactViewHolder();
-            // ini dihindari
-            contactViewHolder.imageViewContact = convertView.findViewById(R.id.image_view_contact);
-            contactViewHolder.textViewContactName = convertView.findViewById(R.id.text_view_contact_name);
-            convertView.setTag(contactViewHolder);
-
-        }
-        else {
-            contactViewHolder = (ContactViewHolder) convertView.getTag();
-        }
-        // 3.
-        User data = getItem(position);
-        // 4.
-        contactViewHolder.textViewContactName.setText(data.getNama());
-        if(position % 2 == 0) {
-            contactViewHolder.imageViewContact.setImageResource(data.getResImage());
-        }
-        else {
-            contactViewHolder.imageViewContact.setImageResource(data.getResImage());
+            TextView textViewNama = convertView.findViewById(R.id.text_view_contact_name);
+            textViewNama.setText(data.getNama());
         }
 
         return convertView;
