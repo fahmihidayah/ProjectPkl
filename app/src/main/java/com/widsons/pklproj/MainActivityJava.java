@@ -1,20 +1,42 @@
 package com.widsons.pklproj;
 
+import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.widsons.pklproj.model.Catatan;
 import com.widsons.pklproj.model.Siswa;
 import com.widsons.pklproj.model.User;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -182,51 +204,270 @@ public class MainActivityJava extends AppCompatActivity {
     }
 
 
+    public String fileName = "data.txt";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final ListView listView = findViewById(R.id.list_view);
-        // 2. Buat object type Token sub class nya
-        ArraySiswaTypeToken arraySiswaTypeToken = new ArraySiswaTypeToken();
+//        final ListView listView = findViewById(R.id.list_view);
 
-        // 3. extrtact menggunakan method .getType()
-        ArrayList<Siswa> siswas = new GsonBuilder().create().fromJson(jsonData, arraySiswaTypeToken.getType());
+        Dexter.withActivity(MainActivityJava.this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        EditText editText = findViewById(R.id.edit_text_message);
+                        editText.setText(readFromExternal());
+                    }
 
-        Toast.makeText(this, "Jumlah siswa yang di ekstrak dari json adalah " + siswas.size(),  Toast.LENGTH_LONG).show();
-         // ------
-        users = new ArrayList<>();
-        users.add(new User("fahmi", "fahmi@gmail.com", "092309232"));
-        users.add(new User("doni", "doni@gmail.com", "224756565"));
-        User user = new User();
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(MainActivityJava.this, "Permision ditolak data tidak ditampilkan", Toast.LENGTH_LONG).show();
+                    }
 
-        user.setNama("abc");
-        user.setPhone("123");
-        user.setEmail("abc@gmail.com");
-        users.add(user);
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                })
+                .check();
 
 
-
-       adapterString = new ArrayAdapterCustom(this, -1, siswas);
-        // ------
-        listView.setAdapter(adapterString);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        findViewById(R.id.button_save_storage).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onClick(View v) {
+                Dexter.withActivity(MainActivityJava.this)
+                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .withListener(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse response) {
+                                EditText editText = findViewById(R.id.edit_text_message);
+                                writeToExternal(editText.getText().toString());
+                            }
 
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse response) {
+                                Toast.makeText(MainActivityJava.this, "Permission ditolak data tidak disimpan", Toast.LENGTH_LONG).show();
+                            }
 
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                token.continuePermissionRequest();
+                            }
+                        })
+                        .check();
             }
         });
 
-        ToggleButton toggleButton = findViewById(R.id.toggle_button_delete);
-        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                adapterString.setEditMode(isChecked);
-            }
-        });
+
+
+//        usingPrint();
+//        usingBufferedReader();
+//        // 2. Buat object type Token sub class nya
+//        ArraySiswaTypeToken arraySiswaTypeToken = new ArraySiswaTypeToken();
+//
+//        // 3. extrtact menggunakan method .getType()
+//        ArrayList<Siswa> siswas = new GsonBuilder().create().fromJson(jsonData, arraySiswaTypeToken.getType());
+//
+//        Toast.makeText(this, "Jumlah siswa yang di ekstrak dari json adalah " + siswas.size(),  Toast.LENGTH_LONG).show();
+//         // ------
+//        users = new ArrayList<>();
+//        users.add(new User("fahmi", "fahmi@gmail.com", "092309232"));
+//        users.add(new User("doni", "doni@gmail.com", "224756565"));
+//        User user = new User();
+//
+//        user.setNama("abc");
+//        user.setPhone("123");
+//        user.setEmail("abc@gmail.com");
+//        users.add(user);
+//
+//
+//
+//       adapterString = new ArrayAdapterCustom(this, -1, siswas);
+//        // ------
+//        listView.setAdapter(adapterString);
+//
+////        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+////            @Override
+////            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////
+////
+////            }
+////        });
+//
+//        ToggleButton toggleButton = findViewById(R.id.toggle_button_delete);
+//        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                adapterString.setEditMode(isChecked);
+//            }
+//        });
 
     }
+
+
+    private void testWriteFile() {
+        String fileName = "fahmi.txt";
+        String name = "test";
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+            outputStream.write(name.getBytes());
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void testReadFile() {
+        String fileName = "fahmi.txt";
+        FileInputStream inputStream;
+
+        try {
+            inputStream = openFileInput(fileName);
+            int c = inputStream.read();
+            String all = "";
+            while (c == -1) {
+                all += Character.toString((char)c);
+                c = inputStream.read();
+            }
+            inputStream.close();
+            System.out.println("all data " + all );
+        }
+        catch (Exception ex) {
+
+        }
+    }
+
+
+
+
+
+    private void usingPrint() {
+        String fileName = "fahmi.txt";
+        String name = "test";
+        FileOutputStream outputStream;
+
+        try {
+            outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+            PrintWriter printWriter = new PrintWriter(outputStream);
+            printWriter.println("Assalamualaikum\n");
+            printWriter.println("Bro\n");
+            printWriter.println("fahmi\n");
+            printWriter.close();
+        }
+        catch (Exception ex) {
+
+        }
+    }
+
+
+    private void usingBufferedReader() {
+        String fileName = "fahmi.txt";
+        FileInputStream inputStream;
+
+        try {
+            inputStream = openFileInput(fileName);
+            String all = "";
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String line = bufferedReader.readLine();
+            while (line != null){
+                all += line;
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+            System.out.println("all data " + all );
+        }
+        catch (Exception ex) {
+
+        }
+    }
+
+
+    public void writeToExternal(String data) {
+        File dirExternal = Environment.getExternalStorageDirectory();
+        File fileToWrite = new File(dirExternal, fileName);
+        try {
+            FileWriter fileWriter = new FileWriter(fileToWrite);
+            fileWriter.write(data);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String readFromExternal(){
+        String value = "";
+        File dirExternal = Environment.getExternalStorageDirectory();
+        File fileToRead = new File(dirExternal, fileName);
+        try {
+            FileReader fileReader = new FileReader(fileToRead);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                value = value + line + "\n";
+                line = bufferedReader.readLine();
+            }
+            value = value.substring(0, value.length() - 1);
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+
+
+
+    private void writeTextToExternalStorage(String data) {
+        File fie = Environment.getExternalStorageDirectory();
+        File fileTarget = new File(fie, fileName);
+        try {
+            FileWriter fileWriter = new FileWriter(fileTarget);
+            fileWriter.write(data);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private String readTextFromExternalStorage() {
+
+        File fie = Environment.getExternalStorageDirectory();
+        File fileTarget = new File(fie, fileName);
+        String allText = "";
+        try {
+            FileReader fileReader = new FileReader(fileTarget);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                allText += line;
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return allText;
+    }
+
+    private void readJson(String jsonString) {
+        ArrayList<Catatan> catatans = new GsonBuilder().create().fromJson(jsonString, new TypeToken<ArrayList<Catatan>>(){}.getType());
+
+    }
+    private void convertToJson(ArrayList<Catatan> catatans){
+        String json = new GsonBuilder().create().toJson(catatans);
+    }
+
 
 }

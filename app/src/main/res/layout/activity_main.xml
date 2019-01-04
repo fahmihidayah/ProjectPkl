@@ -6,21 +6,54 @@
     android:layout_height="match_parent"
     tools:context="com.widsons.pklproj.MainActivity">
     <ListView
-        android:layout_below="@id/button_list_tipe1"
+        android:layout_below="@id/ButtonSimpan"
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <Button
+        android:visibility="gone"
         android:text="Delete"
         android:id="@+id/button_list_tipe1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ToggleButton
+        android:visibility="gone"
         android:layout_toEndOf="@+id/button_list_tipe1"
         android:textOff="View"
         android:textOn="Delete"
         android:id="@+id/toggle_button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:visibility="gone"
+        android:text="Save To Storage"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/button_save_storage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:visibility="gone"
+        android:hint="Message"
+        android:layout_below="@+id/button_save_storage"
+        android:id="@+id/edit_text_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/judul"
+        android:hint="judul"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/edit_text_deskripsi"
+        android:layout_below="@id/judul"
+        android:hint="Catatan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="Simpan"
+        android:id="@+id/ButtonSimpan"
+        android:layout_below="@id/edit_text_deskripsi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

@@ -35,7 +35,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<Siswa> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         Siswa data = getItem(position);
 
@@ -48,6 +48,7 @@ public class ArrayAdapterCustom extends ArrayAdapter<Siswa> {
             TextView textViewNama = convertView.findViewById(R.id.text_view_contact_name);
             textViewNama.setText(data.getNama());
         }
+
 
         return convertView;
     }
