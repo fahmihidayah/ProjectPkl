@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:text="10"
+        android:layout_toStartOf="@+id/text_view_hasil"
+        android:hint="angka 1 "
+        android:id="@+id/edit_text_angka"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="55"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/text_view_hasil"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

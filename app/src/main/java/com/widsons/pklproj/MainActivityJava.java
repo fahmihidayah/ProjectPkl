@@ -2,6 +2,7 @@ package com.widsons.pklproj;
 
 import android.Manifest;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -469,5 +470,25 @@ public class MainActivityJava extends AppCompatActivity {
         String json = new GsonBuilder().create().toJson(catatans);
     }
 
+
+
+    public void testThread() {
+
+        AsyntaskExecuteEdittext1 asyntaskExecuteEdittext1 = new AsyntaskExecuteEdittext1();
+        asyntaskExecuteEdittext1.execute();
+    }
+
+    class AsyntaskExecuteEdittext1 extends  AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+        }
+    }
 
 }
