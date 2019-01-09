@@ -26,6 +26,8 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import com.widsons.pklproj.model.Catatan;
 import com.widsons.pklproj.model.Siswa;
 import com.widsons.pklproj.model.User;
+import com.widsons.pklproj.model.UserDataResponse;
+import com.widsons.pklproj.remote.ApiService;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -39,6 +41,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created on : December/13/2018
@@ -262,6 +268,7 @@ public class MainActivityJava extends AppCompatActivity {
         });
 
 
+        callApi();
 
 //        usingPrint();
 //        usingBufferedReader();
@@ -471,24 +478,23 @@ public class MainActivityJava extends AppCompatActivity {
     }
 
 
+    public void callApi() {
+        // operasi 1
+        MainApplication mainApplication = (MainApplication) getApplication();
+        mainApplication.getApiService().requestUserDetail("2")
+                .enqueue(new Callback<UserDataResponse>() {
+                    @Override
+                    public void onResponse(Call<UserDataResponse> call, Response<UserDataResponse> response) {
+                        Toast.makeText(MainActivityJava.this, "first name adalah " + response.body().getData().getFirstName(), Toast.LENGTH_LONG).show();
+                    }
 
-    public void testThread() {
+                    @Override
+                    public void onFailure(Call<UserDataResponse> call, Throwable t) {
 
-        AsyntaskExecuteEdittext1 asyntaskExecuteEdittext1 = new AsyntaskExecuteEdittext1();
-        asyntaskExecuteEdittext1.execute();
+                    }
+                });
+        // operasi 2
     }
 
-    class AsyntaskExecuteEdittext1 extends  AsyncTask<Void, Void, Integer> {
-
-        @Override
-        protected Integer doInBackground(Void... voids) {
-
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-        }
-    }
 
 }
