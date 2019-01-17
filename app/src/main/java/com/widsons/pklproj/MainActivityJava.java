@@ -24,6 +24,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.widsons.pklproj.model.Catatan;
+import com.widsons.pklproj.model.ListResource;
 import com.widsons.pklproj.model.ListUserResponse;
 import com.widsons.pklproj.model.Siswa;
 import com.widsons.pklproj.model.User;
@@ -498,19 +499,19 @@ public class MainActivityJava extends AppCompatActivity {
                 });
         // operasi 2
 
-        mainApplication.getApiService().requestListUser(1)
-                .enqueue(new Callback<ListUserResponse>() {
+        mainApplication.getApiService().getResource(1)
+                .enqueue(new Callback<ListResource>() {
                     @Override
-                    public void onResponse(Call<ListUserResponse> call, Response<ListUserResponse> response) {
+                    public void onResponse(Call<ListResource> call, Response<ListResource> response) {
                         Toast.makeText(MainActivityJava.this, "Jumlah data adalah " + response.body().getData().size(), Toast.LENGTH_LONG).show();
-                        userDataAdapter =
-                                new UserDataAdapter(MainActivityJava.this,
-                                        android.R.layout.simple_list_item_1,
-                                        response.body().getData());
+//                        userDataAdapter =
+//                                new UserDataAdapter(MainActivityJava.this,
+//                                        android.R.layout.simple_list_item_1,
+//                                        response.body().getData().size());
                     }
 
                     @Override
-                    public void onFailure(Call<ListUserResponse> call, Throwable t) {
+                    public void onFailure(Call<ListResource> call, Throwable t) {
                         System.out.println("error is " + t.getMessage());
                     }
                 });

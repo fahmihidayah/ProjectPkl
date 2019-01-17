@@ -1,5 +1,6 @@
 package com.widsons.pklproj.remote;
 
+import com.widsons.pklproj.model.ListResource;
 import com.widsons.pklproj.model.ListUserResponse;
 import com.widsons.pklproj.model.UserDataResponse;
 
@@ -27,4 +28,7 @@ public interface ApiService {
     @POST("users")
     @FormUrlEncoded
     void requestCreateUser(@Field("name") String name, @Field("job") String job);
+
+    @GET("unknown")
+    Call<ListResource> getResource(@Query("page") int page);
 }
