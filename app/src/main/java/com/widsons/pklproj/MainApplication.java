@@ -23,6 +23,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MainApplication extends Application {
 
+    private static MainApplication instance;
+
+    public static MainApplication getInstance(){
+        return instance;
+    }
+
     private ApiService apiService;
 
     public ApiService getApiService() {
@@ -32,6 +38,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         initialRetrofit();
     }
 
