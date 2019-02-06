@@ -2,7 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <com.widsons.pklproj.custom.SwitchCustomView
+        android:id="@+id/switch_custom_view"
+        android:layout_width="100dp"
+        android:layout_height="50dp"/>
+
     <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/recycler_view_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
