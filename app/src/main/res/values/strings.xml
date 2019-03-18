@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PklProj</string>
+    <string-array name="option_spinner">
+        <item>Per ayat</item>
+        <item>Per surat</item>
+    </string-array>
 </resources>

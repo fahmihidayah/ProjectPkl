@@ -2,6 +2,7 @@ package com.widsons.pklproj;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.widsons.pklproj.dialog.ConfirmationDialog;
 import com.widsons.pklproj.model.Catatan;
 import com.widsons.pklproj.model.ListResource;
 import com.widsons.pklproj.model.ListUserResponse;
@@ -221,58 +223,59 @@ public class MainActivityJava extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        callDialog();
 //        final ListView listView = findViewById(R.id.list_view);
 
-        Dexter.withActivity(MainActivityJava.this)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        EditText editText = findViewById(R.id.edit_text_message);
-                        editText.setText(readFromExternal());
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(MainActivityJava.this, "Permision ditolak data tidak ditampilkan", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                })
-                .check();
-
-
-        findViewById(R.id.button_save_storage).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dexter.withActivity(MainActivityJava.this)
-                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse response) {
-                                EditText editText = findViewById(R.id.edit_text_message);
-                                writeToExternal(editText.getText().toString());
-                            }
-
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse response) {
-                                Toast.makeText(MainActivityJava.this, "Permission ditolak data tidak disimpan", Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        })
-                        .check();
-            }
-        });
-
-
-        callApi();
+//        Dexter.withActivity(MainActivityJava.this)
+//                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                .withListener(new PermissionListener() {
+//                    @Override
+//                    public void onPermissionGranted(PermissionGrantedResponse response) {
+//                        EditText editText = findViewById(R.id.edit_text_message);
+//                        editText.setText(readFromExternal());
+//                    }
+//
+//                    @Override
+//                    public void onPermissionDenied(PermissionDeniedResponse response) {
+//                        Toast.makeText(MainActivityJava.this, "Permision ditolak data tidak ditampilkan", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    @Override
+//                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+//                        token.continuePermissionRequest();
+//                    }
+//                })
+//                .check();
+//
+//
+//        findViewById(R.id.button_save_storage).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Dexter.withActivity(MainActivityJava.this)
+//                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                        .withListener(new PermissionListener() {
+//                            @Override
+//                            public void onPermissionGranted(PermissionGrantedResponse response) {
+//                                EditText editText = findViewById(R.id.edit_text_message);
+//                                writeToExternal(editText.getText().toString());
+//                            }
+//
+//                            @Override
+//                            public void onPermissionDenied(PermissionDeniedResponse response) {
+//                                Toast.makeText(MainActivityJava.this, "Permission ditolak data tidak disimpan", Toast.LENGTH_LONG).show();
+//                            }
+//
+//                            @Override
+//                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+//                                token.continuePermissionRequest();
+//                            }
+//                        })
+//                        .check();
+//            }
+//        });
+//
+//
+//        callApi();
 
 //        usingPrint();
 //        usingBufferedReader();
@@ -518,5 +521,26 @@ public class MainActivityJava extends AppCompatActivity {
 
     }
 
+    public void runThread() {
+        new AsyncTask<Void,Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
+        }.execute();
+    }
+
+
+
+    public void callDialog() {
+        ConfirmationDialog
+                .createConfirmationDialog("Message", "Hello world")
+                .show(getFragmentManager(), "confirmation_dialog");
+    }
 
 }

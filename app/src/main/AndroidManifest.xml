@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:name=".MainApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecyclerViewActivity">
+        <activity android:name=".MainActivityJava">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
