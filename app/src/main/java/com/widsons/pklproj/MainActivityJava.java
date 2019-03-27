@@ -8,14 +8,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageButton;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.jean.jcplayer.model.JcAudio;
+import com.example.jean.jcplayer.view.JcPlayerView;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
@@ -24,6 +29,13 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.tonyodev.fetch2.Error;
+import com.tonyodev.fetch2.Fetch;
+import com.tonyodev.fetch2.FetchConfiguration;
+import com.tonyodev.fetch2.NetworkType;
+import com.tonyodev.fetch2.Priority;
+import com.tonyodev.fetch2.Request;
+import com.tonyodev.fetch2core.Func;
 import com.widsons.pklproj.dialog.ConfirmationDialog;
 import com.widsons.pklproj.model.Catatan;
 import com.widsons.pklproj.model.ListResource;
@@ -32,6 +44,8 @@ import com.widsons.pklproj.model.Siswa;
 import com.widsons.pklproj.model.User;
 import com.widsons.pklproj.model.UserDataResponse;
 import com.widsons.pklproj.remote.ApiService;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -45,6 +59,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +72,9 @@ import retrofit2.Response;
  * Project    : PklProj
  */
 public class MainActivityJava extends AppCompatActivity {
+
+
+    JcPlayerView jcPlayerView;
 
     String jsonData = "[\n" +
             "{\n" +
@@ -223,102 +241,8 @@ public class MainActivityJava extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        callDialog();
-//        final ListView listView = findViewById(R.id.list_view);
-
-//        Dexter.withActivity(MainActivityJava.this)
-//                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                .withListener(new PermissionListener() {
-//                    @Override
-//                    public void onPermissionGranted(PermissionGrantedResponse response) {
-//                        EditText editText = findViewById(R.id.edit_text_message);
-//                        editText.setText(readFromExternal());
-//                    }
-//
-//                    @Override
-//                    public void onPermissionDenied(PermissionDeniedResponse response) {
-//                        Toast.makeText(MainActivityJava.this, "Permision ditolak data tidak ditampilkan", Toast.LENGTH_LONG).show();
-//                    }
-//
-//                    @Override
-//                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-//                        token.continuePermissionRequest();
-//                    }
-//                })
-//                .check();
-//
-//
-//        findViewById(R.id.button_save_storage).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Dexter.withActivity(MainActivityJava.this)
-//                        .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                        .withListener(new PermissionListener() {
-//                            @Override
-//                            public void onPermissionGranted(PermissionGrantedResponse response) {
-//                                EditText editText = findViewById(R.id.edit_text_message);
-//                                writeToExternal(editText.getText().toString());
-//                            }
-//
-//                            @Override
-//                            public void onPermissionDenied(PermissionDeniedResponse response) {
-//                                Toast.makeText(MainActivityJava.this, "Permission ditolak data tidak disimpan", Toast.LENGTH_LONG).show();
-//                            }
-//
-//                            @Override
-//                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-//                                token.continuePermissionRequest();
-//                            }
-//                        })
-//                        .check();
-//            }
-//        });
-//
-//
-//        callApi();
-
-//        usingPrint();
-//        usingBufferedReader();
-//        // 2. Buat object type Token sub class nya
-//        ArraySiswaTypeToken arraySiswaTypeToken = new ArraySiswaTypeToken();
-//
-//        // 3. extrtact menggunakan method .getType()
-//        ArrayList<Siswa> siswas = new GsonBuilder().create().fromJson(jsonData, arraySiswaTypeToken.getType());
-//
-//        Toast.makeText(this, "Jumlah siswa yang di ekstrak dari json adalah " + siswas.size(),  Toast.LENGTH_LONG).show();
-//         // ------
-//        users = new ArrayList<>();
-//        users.add(new User("fahmi", "fahmi@gmail.com", "092309232"));
-//        users.add(new User("doni", "doni@gmail.com", "224756565"));
-//        User user = new User();
-//
-//        user.setNama("abc");
-//        user.setPhone("123");
-//        user.setEmail("abc@gmail.com");
-//        users.add(user);
-//
-//
-//
-//       adapterString = new ArrayAdapterCustom(this, -1, siswas);
-//        // ------
-//        listView.setAdapter(adapterString);
-//
-////        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-////            @Override
-////            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////
-////
-////            }
-////        });
-//
-//        ToggleButton toggleButton = findViewById(R.id.toggle_button_delete);
-//        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                adapterString.setEditMode(isChecked);
-//            }
-//        });
-
+        testDownload();
+        jcPlayerView = findViewById(R.id.jcplayer);
     }
 
 
@@ -520,27 +444,78 @@ public class MainActivityJava extends AppCompatActivity {
                 });
 
     }
+//
+//    public void runThread() {
+//        new AsyncTask<Void,Void, Void>() {
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//            }
+//        }.execute();
+//    }
+//
+//
+//
+//    public void callDialog() {
+//        ConfirmationDialog
+//                .createConfirmationDialog("Message", "Hello world")
+//                .show(getFragmentManager(), "confirmation_dialog");
+//    }
 
-    public void runThread() {
-        new AsyncTask<Void,Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                return null;
-            }
 
+//    public void createAdapter() {
+////        ArrayAdapter<String> adapterTest = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, List<>)
+//    }
+
+
+    public void testDownload() {
+
+        FetchConfiguration fetchConfiguration = new FetchConfiguration.Builder(this)
+                .setDownloadConcurrentLimit(3)
+                .build();
+
+        Fetch fetch = Fetch.Impl.getInstance(fetchConfiguration);
+
+        String url = "http://cdn.alquran.cloud/media/audio/ayah/ar.alafasy/1";
+        File direectory = new File(Environment.getExternalStorageDirectory(), "hafiz");
+        if(!direectory.exists())
+            direectory.mkdirs();
+
+        String filePath = new File(direectory, "1.mp3").getAbsolutePath();
+
+        Request request = new Request(url, filePath);
+        request.setPriority(Priority.HIGH);
+        request.setNetworkType(NetworkType.ALL);
+
+        fetch.enqueue(request, new Func<Request>() {
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            public void call(@NotNull Request result) {
+                Toast.makeText(MainActivityJava.this, "Berhasil download", Toast.LENGTH_LONG).show();
+                playAudio();
             }
-        }.execute();
+        }, new Func<Error>() {
+            @Override
+            public void call(@NotNull Error result) {
+                Toast.makeText(MainActivityJava.this, "Coba lagi download", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
+    public void playAudio() {
+        File direectory = new File(Environment.getExternalStorageDirectory(), "hafiz");
+        String filePath = new File(direectory, "1.mp3").getAbsolutePath();
+        ArrayList<JcAudio> audios = new ArrayList<>();
+        audios.add(JcAudio.createFromFilePath(filePath));
+        jcPlayerView.initPlaylist(audios, null);
+        AppCompatImageButton btnNext = jcPlayerView.findViewById(com.example.jean.jcplayer.R.id.btnPlay);
+        jcPlayerView.onClick(btnNext);
 
-
-    public void callDialog() {
-        ConfirmationDialog
-                .createConfirmationDialog("Message", "Hello world")
-                .show(getFragmentManager(), "confirmation_dialog");
     }
+
 
 }
